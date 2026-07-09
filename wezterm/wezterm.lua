@@ -113,14 +113,6 @@ config.colors.tab_bar = {
     background = transparent_bg,
     new_tab = { fg_color = "#7b8496", bg_color = "#25282e" },
     new_tab_hover = { fg_color = "#16181a", bg_color = "#5ef1ff" },
-    
-    -- Sleek Traffic Light styled window buttons matching Cyberdream
-    window_close = { fg_color = "#ff6e5e", bg_color = "rgba(0,0,0,0)" },
-    window_close_hover = { fg_color = "#16181a", bg_color = "#ff6e5e" },
-    window_minimize = { fg_color = "#f1ff5e", bg_color = "rgba(0,0,0,0)" },
-    window_minimize_hover = { fg_color = "#16181a", bg_color = "#f1ff5e" },
-    window_maximize = { fg_color = "#5eff6c", bg_color = "rgba(0,0,0,0)" },
-    window_maximize_hover = { fg_color = "#16181a", bg_color = "#5eff6c" },
 }
 
 -- Tab Formatting
@@ -169,6 +161,7 @@ end)
 -- Keybindings
 config.keys = {
     { key = "v", mods = "CTRL", action = wezterm.action.PasteFrom("Clipboard") },
+    { key = "x", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 }
 
 -- Default Shell Configuration (fallback)

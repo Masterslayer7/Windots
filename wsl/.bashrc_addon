@@ -1,0 +1,48 @@
+# --- WINDOTS WSL INTEGRATION ---
+# Environment Variables
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+export BAT_CONFIG_DIR="$HOME/.config/bat"
+export FZF_DEFAULT_OPTS='--color=fg:-1,fg+:#ffffff,bg:-1,bg+:#3c4048 --color=hl:#5ea1ff,hl+:#5ef1ff,info:#ffbd5e,marker:#5eff6c --color=prompt:#ff5ef1,spinner:#bd5eff,pointer:#ff5ea0,header:#5eff6c --color=gutter:-1,border:#3c4048,scrollbar:#7b8496,label:#7b8496 --color=query:#ffffff --border="rounded" --border-label="" --preview-window="border-rounded" --height 40% --preview="batcat -n --color=always {}"'
+
+# Aliases matching Windows profile
+alias bat="batcat"
+alias cat="batcat"
+alias vi="nvim"
+alias vim="nvim"
+alias ls="eza -a -l --header --icons --hyperlink --time-style=relative"
+alias ll="eza -a -l --header --icons --hyperlink --time-style=relative"
+alias la="eza -a -l -a --header --icons --hyperlink --time-style=relative"
+alias l="eza -a -l --header --icons --hyperlink --time-style=relative"
+
+# Shell Integrations
+eval "$(starship init bash)"
+eval "$(zoxide init bash --cmd cd)"
+
+# FZF Key Bindings and Auto-completion
+if [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
+if [ -f /usr/share/bash-completion/completions/fzf ]; then
+    source /usr/share/bash-completion/completions/fzf
+fi
+
+# Launch fastfetch
+if [[ $- == *i* ]]; then
+    fastfetch
+fi
+
+# FZF Helper Aliases
+alias fo='nvim $(fzf)'
+alias fkill='kill -9 $(ps -ef | fzf --header="Select process to kill" | awk '\''{print $2}'\'')'
+alias gco='git checkout $(git branch --all | fzf | tr -d "[:space:]*")'
+alias gshow='git log --oneline | fzf --preview "git show {1} --color=always"'
+alias fssh='ssh $(grep -i "host " ~/.ssh/config 2>/dev/null | awk '\''{print $2}'\'' | fzf)'
+
+# FZF Custom Completion Generators (using fd for speed and ignoring git/node_modules)
+_fzf_compgen_path() {
+  fdfind --hidden --follow --exclude ".git" "$1"
+}
+
+_fzf_compgen_dir() {
+  fdfind --type d --hidden --follow --exclude ".git" "$1"
+}
