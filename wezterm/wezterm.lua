@@ -17,6 +17,39 @@ end
 
 local host_os = get_os()
 
+-- Helper function to check if Neovim/Vim is running in active pane
+local function is_vim(pane)
+    local process_info = pane:get_foreground_process_info()
+    local process_name = process_info and process_info.name
+    return process_name == "nvim" or process_name == "vim"
+end
+
+local direction_keys = {
+    Left = "h", Down = "j", Up = "k", Right = "l",
+    h = "Left", j = "Down", k = "Up", l = "Right",
+}
+
+-- Custom event logic for seamless move/resize between terminal panes and Neovim
+local function split_nav(resize_or_move, key)
+    return {
+        key = key,
+        mods = resize_or_move == "resize" and "ALT" or "CTRL",
+        action = wezterm.action_callback(function(win, pane)
+            if is_vim(pane) then
+                win:perform_action({
+                    SendKey = { key = key, mods = resize_or_move == "resize" and "ALT" or "CTRL" },
+                }, pane)
+            else
+                if resize_or_move == "resize" then
+                    win:perform_action({ AdjustPaneSize = { direction_keys[key], 3 } }, pane)
+                else
+                    win:perform_action({ ActivatePaneDirection = direction_keys[key] }, pane)
+                end
+            end
+        end),
+    }
+end
+
 -- Font Configuration
 local emoji_font = "Segoe UI Emoji"
 if host_os == "linux" then
@@ -163,6 +196,16 @@ config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
 -- Keybindings
 config.keys = {
+    -- Seamless Navigation (Ctrl + h/j/k/l) & Resizing (Alt + h/j/k/l) with Neovim
+    split_nav("move", "h"),
+    split_nav("move", "j"),
+    split_nav("move", "k"),
+    split_nav("move", "l"),
+    split_nav("resize", "h"),
+    split_nav("resize", "j"),
+    split_nav("resize", "k"),
+    split_nav("resize", "l"),
+
     -- Send Ctrl+a to terminal by pressing Ctrl+a twice
     { key = "a", mods = "LEADER|CTRL", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
 
