@@ -1,6 +1,9 @@
 -- Initialize Configuration
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
+
+-- Load custom tabs module
+require("tabs").setup(config)
 local opacity = 0.85
 local transparent_bg = "rgba(22, 24, 26, " .. opacity .. ")"
 
@@ -148,48 +151,6 @@ config.colors.tab_bar = {
     new_tab_hover = { fg_color = "#16181a", bg_color = "#5ef1ff" },
 }
 
--- Tab Formatting
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover)
-    local icon, name = get_clean_info(tab)
-
-    local bg = "#25282e" -- Inactive tab background
-    local fg = "#7b8496" -- Inactive tab text
-    
-    if tab.is_active then
-        bg = "#5ef1ff" -- Active tab background (Cyan)
-        fg = "#16181a" -- Active tab text
-    elseif hover then
-        bg = "#bd5eff" -- Hover tab background (Purple)
-        fg = "#ffffff" -- Hover tab text
-    end
-
-    local tab_text = string.format(" %s %s ", icon, name)
-    
-    local cells = {}
-    
-    -- Add left padding space on the very first tab so it doesn't touch the window edge
-    if tab.tab_index == 0 then
-        table.insert(cells, { Background = { Color = transparent_bg } })
-        table.insert(cells, { Text = " " })
-    end
-    
-    table.insert(cells, { Background = { Color = transparent_bg } })
-    table.insert(cells, { Foreground = { Color = bg } })
-    table.insert(cells, { Text = "" })
-    
-    table.insert(cells, { Background = { Color = bg } })
-    table.insert(cells, { Foreground = { Color = fg } })
-    table.insert(cells, { Text = tab_text })
-    
-    table.insert(cells, { Background = { Color = transparent_bg } })
-    table.insert(cells, { Foreground = { Color = bg } })
-    table.insert(cells, { Text = "" })
-    
-    table.insert(cells, { Background = { Color = transparent_bg } })
-    table.insert(cells, { Text = " " })
-    
-    return cells
-end)
 
 -- Set Ctrl+a as the leader key (matches tmux prefix)
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
