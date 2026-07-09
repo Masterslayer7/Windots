@@ -8,7 +8,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 #Requires -RunAsAdministrator
-#Requires -Version 7
 
 # Linked Files (Destination => Source)
 $symlinks = @{
