@@ -158,8 +158,36 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover)
     return cells
 end)
 
+-- Set Ctrl+a as the leader key (matches tmux prefix)
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+
 -- Keybindings
 config.keys = {
+    -- Send Ctrl+a to terminal by pressing Ctrl+a twice
+    { key = "a", mods = "LEADER|CTRL", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
+
+    -- Split panes (matching tmux keys)
+    { key = "%", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    { key = '"', mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+
+    -- Move focus between panes (matching tmux keys)
+    { key = "h", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Left") },
+    { key = "l", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Right") },
+    { key = "k", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Up") },
+    { key = "j", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Down") },
+
+    -- Zoom/Toggle pane (matching tmux key)
+    { key = "z", mods = "LEADER", action = wezterm.action.TogglePaneZoomState },
+
+    -- Tabs (matching tmux keys)
+    { key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
+    { key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
+    { key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
+
+    -- Close active pane (matching tmux key)
+    { key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
+
+    -- General shortcuts
     { key = "v", mods = "CTRL", action = wezterm.action.PasteFrom("Clipboard") },
     { key = "x", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 }
