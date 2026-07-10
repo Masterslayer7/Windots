@@ -12,6 +12,19 @@ return {
         terminal_colors = false,
         cache = true,
         borderless_pickers = true,
+        colors = {
+            bg = "#0a110f",
+            fg = "#e6edf0",
+            grey = "#3c4048",
+            blue = "#85a9bf",
+            green = "#7cb89f",
+            cyan = "#86c5da",
+            red = "#d96a7d",
+            yellow = "#d9c285",
+            magenta = "#a397be",
+            purple = "#a397be",
+            orange = "#d9a473",
+        },
         overrides = function(c)
             return {
                 CursorLine = { bg = c.bg },

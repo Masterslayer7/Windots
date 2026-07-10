@@ -6,19 +6,19 @@ local M = {}
 -- Cyberdream Palette
 ------------------------------------------------------------
 local colors = {
-    bg          = "#16181a",
-    surface     = "#1e2124",
-    overlay     = "#25282e",
-    muted       = "#3c4048",
-    subtle      = "#7b8496",
-    text        = "#ffffff",
-    cyan        = "#5ef1ff",
-    purple      = "#bd5eff",
-    green       = "#5eff6c",
-    pink        = "#ff5ea0",
-    yellow      = "#f1ff5e",
-    orange      = "#ffbd5e",
-    blue        = "#5ea1ff",
+    bg          = "#0a110f", -- Spruce green-black
+    surface     = "#131f1c", -- Dark forest green
+    overlay     = "#1b2b27", -- Medium forest green
+    muted       = "#2b3f3a", -- Slate forest
+    subtle      = "#678278", -- Frosted pine gray
+    text        = "#e6edf0", -- Snow white text
+    cyan        = "#86c5da", -- Glacial ice blue (Active tab)
+    purple      = "#a397be", -- Muted winter purple (Hover state)
+    green       = "#7cb89f", -- Frosted spruce green
+    pink        = "#d96a7d", -- Soft berry red
+    yellow      = "#d9c285", -- Pale winter sun yellow
+    orange      = "#d9a473", -- Soft copper orange
+    blue        = "#85a9bf", -- Snowy blue
 }
 
 ------------------------------------------------------------
