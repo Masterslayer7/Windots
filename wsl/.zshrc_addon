@@ -9,14 +9,22 @@ alias bat="batcat"
 alias cat="batcat"
 alias vi="nvim"
 alias vim="nvim"
-alias ls="eza -a -l --header --icons --hyperlink --time-style=relative"
-alias ll="eza -a -l --header --icons --hyperlink --time-style=relative"
-alias la="eza -a -l -a --header --icons --hyperlink --time-style=relative"
-alias l="eza -a -l --header --icons --hyperlink --time-style=relative"
+alias ls="eza -a -l --header --icons --git --hyperlink --time-style=relative"
+alias ll="eza -a -l --header --icons --git --hyperlink --time-style=relative"
+alias la="eza -a -l -a --header --icons --git --hyperlink --time-style=relative"
+alias l="eza -a -l --header --icons --git --hyperlink --time-style=relative"
 
 # Shell Integrations
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh --cmd cd)"
+
+# Zsh Plugins (Syntax Highlighting & Autosuggestions)
+if [ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+    source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+if [ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+    source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
 # FZF Key Bindings and Auto-completion (fzf v0.44 compatible)
 if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then

@@ -99,6 +99,23 @@ else
     echo "✓ Zoxide is already installed."
 fi
 
+# Clone Zsh plugins (Syntax Highlighting & Autosuggestions)
+if [ ! -d "$HOME/.zsh/zsh-syntax-highlighting" ]; then
+    echo "Cloning zsh-syntax-highlighting..."
+    mkdir -p "$HOME/.zsh"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh/zsh-syntax-highlighting"
+else
+    echo "✓ Zsh syntax highlighting is already installed."
+fi
+
+if [ ! -d "$HOME/.zsh/zsh-autosuggestions" ]; then
+    echo "Cloning zsh-autosuggestions..."
+    mkdir -p "$HOME/.zsh"
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.zsh/zsh-autosuggestions"
+else
+    echo "✓ Zsh autosuggestions is already installed."
+fi
+
 # ------------------------------------------------------------
 # 4. Symbolic Links setup for config folders
 # ------------------------------------------------------------

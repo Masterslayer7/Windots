@@ -1,150 +1,164 @@
-local wezterm = require("wezterm") --[[@as Wezterm]]
+local wezterm = require("wezterm")
 
 local M = {}
-M.arrow_solid = ""
-M.arrow_thin = ""
-M.icons = {
-  ["C:\\WINDOWS\\system32\\cmd.exe"] = wezterm.nerdfonts.md_console_line,
-  ["Topgrade"] = wezterm.nerdfonts.md_rocket_launch,
-  ["bash"] = wezterm.nerdfonts.cod_terminal_bash,
-  ["btm"] = wezterm.nerdfonts.mdi_chart_donut_variant,
-  ["cargo"] = wezterm.nerdfonts.dev_rust,
-  ["curl"] = wezterm.nerdfonts.mdi_flattr,
-  ["docker"] = wezterm.nerdfonts.linux_docker,
-  ["docker-compose"] = wezterm.nerdfonts.linux_docker,
-  ["fish"] = wezterm.nerdfonts.md_fish,
-  ["gh"] = wezterm.nerdfonts.dev_github_badge,
-  ["git"] = wezterm.nerdfonts.dev_git,
-  ["go"] = wezterm.nerdfonts.seti_go,
-  ["htop"] = wezterm.nerdfonts.md_chart_areaspline,
-  ["btop"] = wezterm.nerdfonts.md_chart_areaspline,
-  ["kubectl"] = wezterm.nerdfonts.linux_docker,
-  ["kuberlr"] = wezterm.nerdfonts.linux_docker,
-  ["lazydocker"] = wezterm.nerdfonts.linux_docker,
-  ["lua"] = wezterm.nerdfonts.seti_lua,
-  ["make"] = wezterm.nerdfonts.seti_makefile,
-  ["node"] = wezterm.nerdfonts.mdi_hexagon,
-  ["nvim"] = wezterm.nerdfonts.custom_vim,
-  ["pacman"] = " ",
-  ["paru"] = " ",
-  ["psql"] = wezterm.nerdfonts.dev_postgresql,
-  ["pwsh.exe"] = wezterm.nerdfonts.md_console,
-  ["ruby"] = wezterm.nerdfonts.cod_ruby,
-  ["sudo"] = wezterm.nerdfonts.fa_hashtag,
-  ["vim"] = wezterm.nerdfonts.dev_vim,
-  ["wget"] = wezterm.nerdfonts.mdi_arrow_down_box,
-  ["zsh"] = wezterm.nerdfonts.dev_terminal,
-  ["lazygit"] = wezterm.nerdfonts.cod_github,
+
+------------------------------------------------------------
+-- Cyberdream Palette
+------------------------------------------------------------
+local colors = {
+    bg          = "#16181a",
+    surface     = "#1e2124",
+    overlay     = "#25282e",
+    muted       = "#3c4048",
+    subtle      = "#7b8496",
+    text        = "#ffffff",
+    cyan        = "#5ef1ff",
+    purple      = "#bd5eff",
+    green       = "#5eff6c",
+    pink        = "#ff5ea0",
+    yellow      = "#f1ff5e",
+    orange      = "#ffbd5e",
+    blue        = "#5ea1ff",
 }
 
----@param tab MuxTabObj
----@param max_width number
-function M.title(tab, max_width)
-  local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
-  
-  -- Extract the process name (first word, stripping paths)
-  local process = title:match("^(%S+)")
-  if process then
-    process = process:gsub(".*\\", ""):gsub(".*/", "")
-  end
+------------------------------------------------------------
+-- Process Icons (Nerd Fonts)
+------------------------------------------------------------
+local process_icons = {
+    ["nvim"]           = wezterm.nerdfonts.custom_vim,
+    ["vim"]            = wezterm.nerdfonts.dev_vim,
+    ["bash"]           = wezterm.nerdfonts.cod_terminal_bash,
+    ["zsh"]            = wezterm.nerdfonts.dev_terminal,
+    ["fish"]           = wezterm.nerdfonts.md_fish,
+    ["sh"]             = wezterm.nerdfonts.cod_terminal_bash,
+    ["pwsh"]           = wezterm.nerdfonts.md_console,
+    ["pwsh.exe"]       = wezterm.nerdfonts.md_console,
+    ["powershell"]     = wezterm.nerdfonts.md_console,
+    ["powershell.exe"] = wezterm.nerdfonts.md_console,
+    ["cmd.exe"]        = wezterm.nerdfonts.md_console_line,
+    ["wsl.exe"]        = wezterm.nerdfonts.cod_terminal_linux,
+    ["wslhost.exe"]    = wezterm.nerdfonts.cod_terminal_linux,
+    ["git"]            = wezterm.nerdfonts.dev_git,
+    ["lazygit"]        = wezterm.nerdfonts.cod_github,
+    ["node"]           = wezterm.nerdfonts.md_nodejs,
+    ["npm"]            = wezterm.nerdfonts.md_npm,
+    ["python"]         = wezterm.nerdfonts.dev_python,
+    ["python3"]        = wezterm.nerdfonts.dev_python,
+    ["cargo"]          = wezterm.nerdfonts.dev_rust,
+    ["go"]             = wezterm.nerdfonts.seti_go,
+    ["lua"]            = wezterm.nerdfonts.seti_lua,
+    ["ruby"]           = wezterm.nerdfonts.cod_ruby,
+    ["docker"]         = wezterm.nerdfonts.linux_docker,
+    ["docker-compose"] = wezterm.nerdfonts.linux_docker,
+    ["kubectl"]        = wezterm.nerdfonts.linux_docker,
+    ["htop"]           = wezterm.nerdfonts.md_chart_areaspline,
+    ["btop"]           = wezterm.nerdfonts.md_chart_areaspline,
+    ["btm"]            = wezterm.nerdfonts.md_chart_areaspline,
+    ["sudo"]           = wezterm.nerdfonts.fa_hashtag,
+    ["make"]           = wezterm.nerdfonts.seti_makefile,
+    ["curl"]           = wezterm.nerdfonts.mdi_flattr,
+    ["wget"]           = wezterm.nerdfonts.mdi_arrow_down_box,
+    ["ssh"]            = wezterm.nerdfonts.md_server_network,
+    ["man"]            = wezterm.nerdfonts.md_book_open_variant,
+    ["less"]           = wezterm.nerdfonts.md_book_open_variant,
+    ["cat"]            = wezterm.nerdfonts.md_file_document,
+    ["bat"]            = wezterm.nerdfonts.md_file_document,
+}
 
-  local icon = nil
-  if process and M.icons[process] then
-    icon = M.icons[process]
-  else
-    -- Fallback matching for WSL, shells, and user prompts (e.g. yugp@PC)
-    local lower_title = title:lower()
-    if lower_title:find("wsl") or lower_title:find("ubuntu") or lower_title:find("@") then
-      icon = wezterm.nerdfonts.linux_ubuntu or wezterm.nerdfonts.cod_terminal_bash
-    elseif lower_title:find("bash") or lower_title:find("zsh") or lower_title:find("fish") then
-      icon = wezterm.nerdfonts.cod_terminal_bash
-    end
-  end
+local default_icon = wezterm.nerdfonts.cod_terminal
 
-  if icon then
-    title = icon .. " " .. title
-  end
+------------------------------------------------------------
+-- Extract process name and icon from a tab
+------------------------------------------------------------
+local function get_process(tab)
+    local pane = tab.active_pane
+    local process_name = pane.foreground_process_name or ""
 
-  local is_zoomed = false
-  for _, pane in ipairs(tab.panes) do
-    if pane.is_zoomed then
-      is_zoomed = true
-      break
-    end
-  end
-  if is_zoomed then
-    title = " " .. title
-  end
+    -- Strip path (works for both Windows backslash and Unix slash)
+    process_name = process_name:gsub("(.*[/\\])(.*)", "%2")
 
-  title = wezterm.truncate_right(title, max_width - 3)
-  return " " .. title .. " "
+    -- Strip .exe suffix for matching
+    local match_name = process_name:gsub("%.exe$", "")
+
+    local icon = process_icons[process_name] or process_icons[match_name] or default_icon
+    return icon, match_name ~= "" and match_name or "terminal"
 end
 
----@param config Config
+------------------------------------------------------------
+-- Build tab title
+------------------------------------------------------------
+local function tab_title(tab, max_width)
+    local icon, name = get_process(tab)
+
+    -- Check if any pane is zoomed
+    local is_zoomed = false
+    for _, p in ipairs(tab.panes) do
+        if p.is_zoomed then
+            is_zoomed = true
+            break
+        end
+    end
+
+    local zoom_indicator = is_zoomed and wezterm.nerdfonts.cod_zoom_in .. " " or ""
+    local index = tab.tab_index + 1
+    local title = string.format(" %s%s %s:%s ", zoom_indicator, icon, index, name)
+
+    return wezterm.truncate_right(title, max_width - 2)
+end
+
+------------------------------------------------------------
+-- Setup: apply tab bar config and register format handler
+------------------------------------------------------------
 function M.setup(config)
-  config.use_fancy_tab_bar = false
-  config.tab_bar_at_bottom = false
-  config.hide_tab_bar_if_only_one_tab = false -- Always show tab bar so you can see icons
-  config.tab_max_width = 32
-  config.unzoom_on_switch_pane = true
+    config.use_fancy_tab_bar = false
+    config.tab_bar_at_bottom = false
+    config.hide_tab_bar_if_only_one_tab = false
+    config.tab_max_width = 36
+    config.unzoom_on_switch_pane = true
 
-  wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local title = M.title(tab, max_width)
-    
-    -- Hardcoded Cyberdream palette to avoid config.resolved_palette runtime crash
-    local active_bg = "#5ef1ff" -- Cyan
-    local active_fg = "#16181a" -- Dark
-    local inactive_bg = "#25282e" -- Medium Dark
-    local inactive_fg = "#7b8496" -- Gray
-    local hover_bg = "#bd5eff" -- Purple
-    local hover_fg = "#ffffff" -- White
+    -- Powerline glyphs
+    local LEFT_CAP  = wezterm.nerdfonts.ple_left_half_circle_thick
+    local RIGHT_CAP = wezterm.nerdfonts.ple_right_half_circle_thick
 
-    local bg = inactive_bg
-    local fg = inactive_fg
+    wezterm.on("format-tab-title", function(tab, tabs, _, _, hover, max_width)
+        local title = tab_title(tab, max_width)
 
-    if tab.is_active then
-      bg = active_bg
-      fg = active_fg
-    elseif hover then
-      bg = hover_bg
-      fg = hover_fg
-    end
+        local bg = colors.overlay
+        local fg = colors.subtle
+        local cap_color = colors.overlay
 
-    local tab_idx = 1
-    for i, t in ipairs(tabs) do
-      if t.tab_id == tab.tab_id then
-        tab_idx = i
-        break
-      end
-    end
-    local is_last = tab_idx == #tabs
-    local next_tab = tabs[tab_idx + 1]
-    local next_is_active = next_tab and next_tab.is_active
-    local arrow = (tab.is_active or is_last or next_is_active) and M.arrow_solid or M.arrow_thin
-    
-    local arrow_bg = inactive_bg
-    local arrow_fg = "#3c4048"
+        if tab.is_active then
+            bg = colors.cyan
+            fg = colors.bg
+            cap_color = colors.cyan
+        elseif hover then
+            bg = colors.purple
+            fg = colors.text
+            cap_color = colors.purple
+        end
 
-    if is_last then
-      arrow_fg = tab.is_active and active_bg or inactive_bg
-      arrow_bg = "rgba(0,0,0,0)" -- Transparent background for trailing spacer
-    elseif tab.is_active then
-      arrow_bg = inactive_bg
-      arrow_fg = active_bg
-    elseif next_is_active then
-      arrow_bg = active_bg
-      arrow_fg = inactive_bg
-    end
+        -- Transparent background behind the pill caps
+        local transparent = colors.bg
 
-    return {
-      { Background = { Color = bg } },
-      { Foreground = { Color = fg } },
-      { Text = title },
-      { Foreground = { Color = arrow_fg } },
-      { Background = { Color = arrow_bg } },
-      { Text = arrow },
-    }
-  end)
+        return {
+            -- Left rounded cap
+            { Background = { Color = transparent } },
+            { Foreground = { Color = cap_color } },
+            { Text = LEFT_CAP },
+            -- Tab body
+            { Background = { Color = bg } },
+            { Foreground = { Color = fg } },
+            { Attribute = { Intensity = tab.is_active and "Bold" or "Normal" } },
+            { Text = title },
+            -- Right rounded cap
+            { Background = { Color = transparent } },
+            { Foreground = { Color = cap_color } },
+            { Text = RIGHT_CAP },
+            -- Spacer between tabs
+            { Background = { Color = transparent } },
+            { Text = " " },
+        }
+    end)
 end
 
 return M
