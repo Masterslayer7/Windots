@@ -94,13 +94,8 @@ config.initial_cols = 180
 -- Window decorations and titlebar controls
 config.window_decorations = "TITLE | RESIZE"
 
--- Opacity and blurred background
+-- Opacity and background settings
 config.window_background_opacity = opacity
-config.window_background_image = wezterm.config_dir .. "/bg-blurred.jpg"
-config.window_background_image_hsb = {
-    brightness = 0.12, -- Dimmed so text contrast remains extremely high
-    saturation = 0.4,
-}
 
 -- Spacious text margins
 config.window_padding = {
