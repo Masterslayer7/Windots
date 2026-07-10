@@ -74,9 +74,9 @@ config.font_size = 10
 -- Color Configuration
 ------------------------------------------------------------
 local opacity = 0.60
-local transparent_bg = "rgba(7, 12, 10, " .. opacity .. ")"
+local transparent_bg = "rgba(3, 25, 27, " .. opacity .. ")"
 config.colors = require("cyberdream")
-config.colors.split = "#13221b" -- Dark olive border for thin split dividers
+config.colors.split = "#083d44" -- Dark teal border for thin split dividers
 config.force_reverse_video_cursor = true
 
 -- Dim inactive panes slightly to make the active pane pop
@@ -91,9 +91,8 @@ config.inactive_pane_hsb = {
 config.initial_rows = 45
 config.initial_cols = 180
 
--- macOS-style red/green/blue window controls
+-- Window decorations and titlebar controls
 config.window_decorations = "TITLE | RESIZE"
-config.integrated_title_button_style = "MacOsNative"
 
 -- Opacity and blurred background
 config.window_background_opacity = opacity
