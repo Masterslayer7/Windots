@@ -1,42 +1,42 @@
--- Tundra Forest: A snowy day in a tundra forest theme
+-- Tundra Forest: High contrast snowy tundra forest theme
 return {
-    foreground = "#e6edf0",
+    foreground = "#ffffff",
     background = "#0a110f",
 
-    cursor_bg = "#e6edf0",
+    cursor_bg = "#ffffff",
     cursor_fg = "#0a110f",
-    cursor_border = "#e6edf0",
+    cursor_border = "#ffffff",
 
     selection_fg = "#ffffff",
-    selection_bg = "#233932", -- Frosted pine-slate selection
+    selection_bg = "#233932",
 
     scrollbar_thumb = "#131f1c",
-    split = "#1c2e29", -- Subtle dark pine pane borders
+    split = "#1c2e29",
 
-    -- Normal ANSI colors (spruce green, ice blue, frost white, winter sun)
+    -- Normal ANSI colors (spruce green, ice-white blue, snow white)
     ansi = {
         "#0a110f", -- Black
-        "#d96a7d", -- Red (Berry)
-        "#7cb89f", -- Green (Spruce)
-        "#d9c285", -- Yellow (Sunlight)
-        "#85a9bf", -- Blue (Glacier)
-        "#a397be", -- Magenta (Dusk)
-        "#86c5da", -- Cyan (Ice)
-        "#e6edf0", -- White (Snow)
+        "#e68595", -- Red (Berry)
+        "#8fe4c1", -- Green (Frosted Spruce - Brighter)
+        "#ebd69b", -- Yellow (Winter Sun - Brighter)
+        "#b3d3e3", -- Blue (Glacier Ice-White - Brighter)
+        "#b8add1", -- Magenta (Dusk - Brighter)
+        "#bce6f2", -- Cyan (glacial Ice-White - Brighter)
+        "#ffffff", -- White (Snow)
     },
-    -- Bright ANSI colors
+    -- Bright ANSI colors (very high contrast)
     brights = {
         "#233932", -- Black
-        "#e67d8f", -- Red
-        "#99d6bb", -- Green
-        "#ecdca5", -- Yellow
-        "#a5cce3", -- Blue
-        "#c0b3db", -- Magenta
-        "#a2d2df", -- Cyan
+        "#ff9ea8", -- Red
+        "#b0f0d3", -- Green
+        "#fcf1c5", -- Yellow
+        "#d4ebf7", -- Blue
+        "#d6cdeb", -- Magenta
+        "#dcf5fc", -- Cyan
         "#ffffff", -- White
     },
     indexed = {
-        [16] = "#d9a473", -- Soft Orange
-        [17] = "#e67d8f", -- Bright Berry Red
+        [16] = "#ebd69b", -- Winter Sun
+        [17] = "#ff9ea8", -- Bright Berry Red
     },
 }

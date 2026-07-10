@@ -10,15 +10,15 @@ local colors = {
     surface     = "#131f1c", -- Dark forest green
     overlay     = "#1b2b27", -- Medium forest green
     muted       = "#2b3f3a", -- Slate forest
-    subtle      = "#678278", -- Frosted pine gray
-    text        = "#e6edf0", -- Snow white text
-    cyan        = "#86c5da", -- Glacial ice blue (Active tab)
-    purple      = "#a397be", -- Muted winter purple (Hover state)
-    green       = "#7cb89f", -- Frosted spruce green
-    pink        = "#d96a7d", -- Soft berry red
-    yellow      = "#d9c285", -- Pale winter sun yellow
+    subtle      = "#89a89c", -- Frosted pine gray (Brighter for contrast)
+    text        = "#ffffff", -- Pure snow white text (Maximum contrast)
+    cyan        = "#bce6f2", -- Glacial ice-white cyan (Active tab - Brighter)
+    purple      = "#b8add1", -- Muted winter purple (Hover state - Brighter)
+    green       = "#8fe4c1", -- Frosted spruce green (Brighter)
+    pink        = "#e68595", -- Soft berry red
+    yellow      = "#ebd69b", -- Pale winter sun yellow
     orange      = "#d9a473", -- Soft copper orange
-    blue        = "#85a9bf", -- Snowy blue
+    blue        = "#b3d3e3", -- Glacier ice-white blue (Brighter)
 }
 
 ------------------------------------------------------------
