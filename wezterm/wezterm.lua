@@ -73,10 +73,10 @@ config.font_size = 10
 ------------------------------------------------------------
 -- Color Configuration
 ------------------------------------------------------------
-local opacity = 0.85
-local transparent_bg = "rgba(22, 24, 26, " .. opacity .. ")"
+local opacity = 0.60
+local transparent_bg = "rgba(7, 12, 10, " .. opacity .. ")"
 config.colors = require("cyberdream")
-config.colors.split = "#1c2e29" -- Tundra pine border for thin split dividers
+config.colors.split = "#13221b" -- Dark olive border for thin split dividers
 config.force_reverse_video_cursor = true
 
 -- Dim inactive panes slightly to make the active pane pop
@@ -90,8 +90,27 @@ config.inactive_pane_hsb = {
 ------------------------------------------------------------
 config.initial_rows = 45
 config.initial_cols = 180
-config.window_decorations = "INTEGRATED_BUTTONS | RESIZE"
+
+-- macOS-style red/green/blue window controls
+config.window_decorations = "TITLE | RESIZE"
+config.integrated_title_button_style = "RedGreenBlue"
+
+-- Opacity and blurred background
 config.window_background_opacity = opacity
+config.window_background_image = wezterm.config_dir .. "/bg-blurred.jpg"
+config.window_background_image_hsb = {
+    brightness = 0.12, -- Dimmed so text contrast remains extremely high
+    saturation = 0.4,
+}
+
+-- Spacious text margins
+config.window_padding = {
+    left = 15,
+    right = 15,
+    top = 12,
+    bottom = 12,
+}
+
 config.window_close_confirmation = "NeverPrompt"
 config.win32_system_backdrop = "Acrylic"
 
