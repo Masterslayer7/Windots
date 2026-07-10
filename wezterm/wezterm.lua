@@ -93,7 +93,7 @@ config.initial_cols = 180
 
 -- macOS-style red/green/blue window controls
 config.window_decorations = "TITLE | RESIZE"
-config.integrated_title_button_style = "RedGreenBlue"
+config.integrated_title_button_style = "MacOsNative"
 
 -- Opacity and blurred background
 config.window_background_opacity = opacity
