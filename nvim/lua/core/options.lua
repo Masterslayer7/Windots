@@ -7,9 +7,10 @@ vim.g.host = vim.fn.hostname()
 local opt = vim.opt
 opt.shell = "zsh"
 
--- Set shell to PowerShell 7 if on Win32 or Win64
+-- Set shell to PowerShell if on Win32 or Win64
 if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
-    opt.shell = "pwsh -NoLogo"
+    local powershell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell"
+    opt.shell = powershell .. " -NoLogo"
     opt.shellcmdflag =
         "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
     opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
