@@ -7,7 +7,7 @@ $character"""
 
 right_format = """$cmd_duration$status"""
 
-add_newline = true
+add_newline = false
 
 [character]
 success_symbol = "[❯](bold green)"
