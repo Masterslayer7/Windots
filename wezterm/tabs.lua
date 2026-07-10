@@ -41,10 +41,28 @@ M.icons = {
 ---@param max_width number
 function M.title(tab, max_width)
   local title = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or tab.active_pane.title
-  local process, other = title:match("^(%S+)%s*%-?%s*%s*(.*)$")
+  
+  -- Extract the process name (first word, stripping paths)
+  local process = title:match("^(%S+)")
+  if process then
+    process = process:gsub(".*\\", ""):gsub(".*/", "")
+  end
 
-  if M.icons[process] then
-    title = M.icons[process] .. " " .. (other or "")
+  local icon = nil
+  if process and M.icons[process] then
+    icon = M.icons[process]
+  else
+    -- Fallback matching for WSL, shells, and user prompts (e.g. yugp@PC)
+    local lower_title = title:lower()
+    if lower_title:find("wsl") or lower_title:find("ubuntu") or lower_title:find("@") then
+      icon = wezterm.nerdfonts.linux_ubuntu or wezterm.nerdfonts.cod_terminal_bash
+    elseif lower_title:find("bash") or lower_title:find("zsh") or lower_title:find("fish") then
+      icon = wezterm.nerdfonts.cod_terminal_bash
+    end
+  end
+
+  if icon then
+    title = icon .. " " .. title
   end
 
   local is_zoomed = false
@@ -54,7 +72,7 @@ function M.title(tab, max_width)
       break
     end
   end
-  if is_zoomed then -- or (#tab.panes > 1 and not tab.is_active) then
+  if is_zoomed then
     title = " " .. title
   end
 
@@ -65,16 +83,32 @@ end
 ---@param config Config
 function M.setup(config)
   config.use_fancy_tab_bar = false
-  config.tab_bar_at_bottom = true
-  config.hide_tab_bar_if_only_one_tab = true
+  config.tab_bar_at_bottom = false
+  config.hide_tab_bar_if_only_one_tab = false -- Always show tab bar so you can see icons
   config.tab_max_width = 32
   config.unzoom_on_switch_pane = true
 
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local title = M.title(tab, max_width)
-    local colors = config.resolved_palette
-    local active_bg = colors.tab_bar.active_tab.bg_color
-    local inactive_bg = colors.tab_bar.inactive_tab.bg_color
+    
+    -- Hardcoded Cyberdream palette to avoid config.resolved_palette runtime crash
+    local active_bg = "#5ef1ff" -- Cyan
+    local active_fg = "#16181a" -- Dark
+    local inactive_bg = "#25282e" -- Medium Dark
+    local inactive_fg = "#7b8496" -- Gray
+    local hover_bg = "#bd5eff" -- Purple
+    local hover_fg = "#ffffff" -- White
+
+    local bg = inactive_bg
+    local fg = inactive_fg
+
+    if tab.is_active then
+      bg = active_bg
+      fg = active_fg
+    elseif hover then
+      bg = hover_bg
+      fg = hover_fg
+    end
 
     local tab_idx = 1
     for i, t in ipairs(tabs) do
@@ -87,12 +121,13 @@ function M.setup(config)
     local next_tab = tabs[tab_idx + 1]
     local next_is_active = next_tab and next_tab.is_active
     local arrow = (tab.is_active or is_last or next_is_active) and M.arrow_solid or M.arrow_thin
+    
     local arrow_bg = inactive_bg
-    local arrow_fg = colors.tab_bar.inactive_tab_edge
+    local arrow_fg = "#3c4048"
 
     if is_last then
       arrow_fg = tab.is_active and active_bg or inactive_bg
-      arrow_bg = colors.tab_bar.background
+      arrow_bg = "rgba(0,0,0,0)" -- Transparent background for trailing spacer
     elseif tab.is_active then
       arrow_bg = inactive_bg
       arrow_fg = active_bg
@@ -101,17 +136,14 @@ function M.setup(config)
       arrow_fg = inactive_bg
     end
 
-    local ret = tab.is_active
-        and {
-          { Attribute = { Intensity = "Bold" } },
-          { Attribute = { Italic = true } },
-        }
-      or {}
-    ret[#ret + 1] = { Text = title }
-    ret[#ret + 1] = { Foreground = { Color = arrow_fg } }
-    ret[#ret + 1] = { Background = { Color = arrow_bg } }
-    ret[#ret + 1] = { Text = arrow }
-    return ret
+    return {
+      { Background = { Color = bg } },
+      { Foreground = { Color = fg } },
+      { Text = title },
+      { Foreground = { Color = arrow_fg } },
+      { Background = { Color = arrow_bg } },
+      { Text = arrow },
+    }
   end)
 end
 
