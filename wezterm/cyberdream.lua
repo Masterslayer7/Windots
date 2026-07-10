@@ -1,42 +1,40 @@
--- Tundra Forest: High contrast snowy tundra forest theme
+-- Noctis Default theme for WezTerm
 return {
-    foreground = "#ffffff",
-    background = "#0a110f",
+    foreground = "#b2cacd",
+    background = "#03191b", -- Rich dark teal
 
-    cursor_bg = "#ffffff",
-    cursor_fg = "#0a110f",
-    cursor_border = "#ffffff",
+    cursor_bg = "#b2cacd",
+    cursor_fg = "#03191b",
+    cursor_border = "#b2cacd",
 
-    selection_fg = "#ffffff",
-    selection_bg = "#233932",
+    selection_fg = "#b2cacd",
+    selection_bg = "#083d44", -- Dark teal selection
 
-    scrollbar_thumb = "#131f1c",
-    split = "#1c2e29",
+    scrollbar_thumb = "#052225",
+    split = "#083d44", -- Clean split divider
 
-    -- Normal ANSI colors (spruce green, ice-white blue, snow white)
     ansi = {
-        "#0a110f", -- Black
-        "#e68595", -- Red (Berry)
-        "#8fe4c1", -- Green (Frosted Spruce - Brighter)
-        "#ebd69b", -- Yellow (Winter Sun - Brighter)
-        "#b3d3e3", -- Blue (Glacier Ice-White - Brighter)
-        "#b8add1", -- Magenta (Dusk - Brighter)
-        "#bce6f2", -- Cyan (glacial Ice-White - Brighter)
-        "#ffffff", -- White (Snow)
+        "#324a4d", -- Black
+        "#e66533", -- Red (Noctis Orange-Red)
+        "#49e9a6", -- Green
+        "#e4b781", -- Yellow
+        "#49ace9", -- Blue
+        "#df769b", -- Magenta
+        "#49d6e9", -- Cyan
+        "#b2cacd", -- White
     },
-    -- Bright ANSI colors (very high contrast)
     brights = {
-        "#233932", -- Black
-        "#ff9ea8", -- Red
-        "#b0f0d3", -- Green
-        "#fcf1c5", -- Yellow
-        "#d4ebf7", -- Blue
-        "#d6cdeb", -- Magenta
-        "#dcf5fc", -- Cyan
-        "#ffffff", -- White
+        "#47686c", -- Black
+        "#e97749", -- Red
+        "#60ebb1", -- Green
+        "#e69533", -- Yellow
+        "#60b6eb", -- Blue
+        "#e798b3", -- Magenta
+        "#60dbeb", -- Cyan
+        "#c1d4d7", -- White
     },
     indexed = {
-        [16] = "#ebd69b", -- Winter Sun
-        [17] = "#ff9ea8", -- Bright Berry Red
+        [16] = "#e69533", -- Bright Yellow
+        [17] = "#e97749", -- Bright Red
     },
 }

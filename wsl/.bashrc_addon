@@ -2,7 +2,7 @@
 # Environment Variables
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 export BAT_CONFIG_DIR="$HOME/.config/bat"
-export FZF_DEFAULT_OPTS='--color=fg:-1,fg+:#ffffff,bg:-1,bg+:#233932 --color=hl:#b3d3e3,hl+:#bce6f2,info:#ebd69b,marker:#8fe4c1 --color=prompt:#bce6f2,spinner:#b8add1,pointer:#e68595,header:#8fe4c1 --color=gutter:-1,border:#2b3f3a,scrollbar:#89a89c,label:#89a89c --color=query:#ffffff --border="rounded" --border-label="" --preview-window="border-rounded" --height 40% --preview="batcat -n --color=always {}"'
+export FZF_DEFAULT_OPTS='--color=fg:-1,fg+:#ffffff,bg:-1,bg+:#083d44 --color=hl:#49ace9,hl+:#49d6e9,info:#e4b781,marker:#49e9a6 --color=prompt:#49d6e9,spinner:#df769b,pointer:#e66533,header:#49e9a6 --color=gutter:-1,border:#083d44,scrollbar:#0c5861,label:#0c5861 --color=query:#b2cacd --border="rounded" --border-label="" --preview-window="border-rounded" --height 40% --preview="batcat -n --color=always {}"'
 
 # Aliases matching Windows profile
 alias bat="batcat"

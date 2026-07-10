@@ -3,22 +3,22 @@ local wezterm = require("wezterm")
 local M = {}
 
 ------------------------------------------------------------
--- Cyberdream Palette
+-- Noctis Default Palette
 ------------------------------------------------------------
 local colors = {
-    bg          = "#0a110f", -- Spruce green-black
-    surface     = "#131f1c", -- Dark forest green
-    overlay     = "#1b2b27", -- Medium forest green
-    muted       = "#2b3f3a", -- Slate forest
-    subtle      = "#89a89c", -- Frosted pine gray (Brighter for contrast)
-    text        = "#ffffff", -- Pure snow white text (Maximum contrast)
-    cyan        = "#bce6f2", -- Glacial ice-white cyan (Active tab - Brighter)
-    purple      = "#b8add1", -- Muted winter purple (Hover state - Brighter)
-    green       = "#8fe4c1", -- Frosted spruce green (Brighter)
-    pink        = "#e68595", -- Soft berry red
-    yellow      = "#ebd69b", -- Pale winter sun yellow
-    orange      = "#d9a473", -- Soft copper orange
-    blue        = "#b3d3e3", -- Glacier ice-white blue (Brighter)
+    bg          = "#03191b", -- Noctis dark teal
+    surface     = "#052225", -- Dark forest teal
+    overlay     = "#083d44", -- Medium forest teal
+    muted       = "#0c5861", -- Slate teal
+    subtle      = "#b2cacd", -- Noctis foreground (text color)
+    text        = "#ffffff", -- Pure white text
+    cyan        = "#49d6e9", -- Active tab cyan
+    purple      = "#df769b", -- Hover state magenta
+    green       = "#49e9a6", -- Green
+    pink        = "#e66533", -- Orange-Red
+    yellow      = "#e4b781", -- Yellow
+    orange      = "#e69533", -- Orange
+    blue        = "#49ace9", -- Blue
 }
 
 ------------------------------------------------------------
