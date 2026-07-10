@@ -1,32 +1,46 @@
-# Starship Configuration: Style B (Neon Minimalist)
+# Starship Configuration: Style A (Powerline Pill)
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$username$hostname$directory$git_branch$git_status$c$elixir$elm$golang$haskell$java$julia$nodejs$rust$scala$python$docker_context$aws$gcloud$env_var
+[](#083d44)$username$hostname$directory[](#083d44)\
+$git_branch$git_status\
+$c$elixir$elm$golang$haskell$java$julia$nodejs$rust$scala$python$docker_context\
+$fill$cmd_duration$status
 $character"""
-
-right_format = """$cmd_duration$status"""
 
 add_newline = true
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
+success_symbol = "[ ❯ ](bold #49e9a6)"
+error_symbol = "[ ❯ ](bold #e66533)"
 
 [directory]
-style = "bold blue"
-format = "[$path]($style)[$read_only]($read_only_style) "
+style = "bg:#083d44 fg:#ffffff"
+format = "[$path]($style)"
 truncation_length = 3
 truncate_to_repo = true
 
+[username]
+style_user = "bg:#083d44 fg:#49d6e9 bold"
+style_root = "bg:#083d44 fg:#e66533 bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+style = "bg:#083d44 fg:#e4b781 bold"
+format = "[@$hostname]($style)"
+disabled = false
+
 [git_branch]
 symbol = " "
-style = "bold purple"
-format = "on [$symbol$branch]($style) "
+style = "fg:#df769b"
+format = " [](#0c5861)[$symbol$branch](bg:#0c5861 fg:#ffffff)[](#0c5861)"
 
 [git_status]
-style = "bold red"
-format = "([\\[$all_status$ahead_behind\\]]($style) )"
+style = "fg:#e66533"
+format = "([](#13221b)[$all_status$ahead_behind](bg:#13221b $style)[](#13221b) )"
 conflicted = "="
 ahead = "⇡"
 behind = "⇣"
@@ -40,48 +54,36 @@ deleted = "✘"
 
 [cmd_duration]
 min_time = 1000
-style = "bold yellow"
+style = "fg:#e4b781"
 format = "took [$duration]($style) "
-
-[username]
-style_user = "bold cyan"
-style_root = "black bold red"
-format = "[$user]($style) "
-disabled = false
-show_always = false
-
-[hostname]
-ssh_only = true
-format = "@[$hostname](bold yellow) "
-disabled = false
 
 [status]
 disabled = false
 format = "[$symbol $status]($style)"
 symbol = "✘"
-style = "bold red"
+style = "bold #e66533"
 
 [nodejs]
 symbol = " "
-style = "bold green"
+style = "fg:#49e9a6"
 format = "via [$symbol($version)]($style) "
 
 [golang]
 symbol = " "
-style = "bold cyan"
+style = "fg:#49d6e9"
 format = "via [$symbol($version)]($style) "
 
 [rust]
 symbol = " "
-style = "bold orange"
+style = "fg:#e69533"
 format = "via [$symbol($version)]($style) "
 
 [python]
 symbol = " "
-style = "bold yellow"
+style = "fg:#e4b781"
 format = "via [$symbol($version)]($style) "
 
 [docker_context]
 symbol = " "
-style = "bold blue"
+style = "fg:#49ace9"
 format = "via [$symbol$context]($style) "
