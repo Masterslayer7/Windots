@@ -64,6 +64,12 @@ check_and_install rg ripgrep
 check_and_install fdfind fd-find
 check_and_install batcat bat
 check_and_install eza eza
+check_and_install gh gh
+check_and_install make make
+check_and_install cmake cmake
+check_and_install gcc build-essential
+check_and_install node "nodejs npm"
+check_and_install sqlite3 "sqlite3 libsqlite3-dev"
 
 # Install Fastfetch
 if ! command -v fastfetch &>/dev/null; then
@@ -97,6 +103,34 @@ if ! command -v zoxide &>/dev/null; then
     curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 else
     echo "✓ Zoxide is already installed."
+fi
+
+# Install Zig
+if ! command -v zig &>/dev/null; then
+    echo "Installing Zig..."
+    sudo snap install zig --classic || sudo apt install -y zig
+else
+    echo "✓ zig is already installed."
+fi
+
+# Install Task
+if ! command -v task &>/dev/null; then
+    echo "Installing task..."
+    sudo snap install task --classic || sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+else
+    echo "✓ task is already installed."
+fi
+
+# Install Lazygit
+if ! command -v lazygit &>/dev/null; then
+    echo "Installing lazygit..."
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit /usr/local/bin
+    rm -f lazygit lazygit.tar.gz
+else
+    echo "✓ lazygit is already installed."
 fi
 
 # Clone Zsh plugins (Syntax Highlighting & Autosuggestions)
