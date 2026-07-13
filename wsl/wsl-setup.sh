@@ -196,8 +196,8 @@ echo "Generating ~/.zshrc..."
 cat << EOF > "$HOME/.zshrc"
 # ~/.zshrc - ZSH Configuration
 
-# PATH must be set before sourcing addon (zoxide, starship live in ~/.local/bin)
-export PATH="\$HOME/.local/bin:\$PATH"
+# PATH must be set before sourcing addon (zoxide, starship live in ~/.local/bin, snap under /snap/bin)
+export PATH="\$HOME/.local/bin:/snap/bin:\$PATH"
 
 # Load Windots WSL addon if it exists
 if [ -f "$WIN_CONFIG_DIR/wsl/.zshrc_addon" ]; then
