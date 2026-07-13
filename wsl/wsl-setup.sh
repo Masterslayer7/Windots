@@ -14,7 +14,7 @@ WIN_USER=$(cmd.exe /c "echo %USERNAME%" 2>/dev/null | tr -d '\r')
 # Fallback if cmd.exe is not accessible
 if [ -z "$WIN_USER" ]; then
     for u in /mnt/c/Users/*; do
-        if [ -d "$u/.config" ]; then
+        if [ -d "$u/.config" ] || [ -d "$u/windots" ]; then
             WIN_USER=$(basename "$u")
             break
         fi
@@ -26,7 +26,16 @@ if [ -z "$WIN_USER" ]; then
     exit 1
 fi
 
-WIN_CONFIG_DIR="/mnt/c/Users/$WIN_USER/.config"
+# Locate the config directory (check for .config or windots)
+if [ -d "/mnt/c/Users/$WIN_USER/.config" ]; then
+    WIN_CONFIG_DIR="/mnt/c/Users/$WIN_USER/.config"
+elif [ -d "/mnt/c/Users/$WIN_USER/windots" ]; then
+    WIN_CONFIG_DIR="/mnt/c/Users/$WIN_USER/windots"
+else
+    echo "[ERROR] Could not locate your Windows dotfiles folder (tried .config and windots) under /mnt/c/Users/$WIN_USER/"
+    exit 1
+fi
+
 echo "Found Windows Config Directory: $WIN_CONFIG_DIR"
 
 # ------------------------------------------------------------
@@ -70,6 +79,7 @@ check_and_install cmake cmake
 check_and_install gcc build-essential
 check_and_install node "nodejs npm"
 check_and_install sqlite3 "sqlite3 libsqlite3-dev"
+check_and_install unzip unzip
 
 # Install Fastfetch
 if ! command -v fastfetch &>/dev/null; then
