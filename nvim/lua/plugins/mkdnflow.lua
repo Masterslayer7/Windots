@@ -3,7 +3,7 @@ return {
     ft = { "markdown", "rmd" }, -- Load only for markdown files
     config = function()
         require("mkdnflow").setup({
-            -- You can add custom configuration options here
+            default_mappings = true,
         })
     end,
 }
