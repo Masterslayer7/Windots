@@ -143,6 +143,27 @@ else
     echo "✓ lazygit is already installed."
 fi
 
+# Install tldr (client for cheat sheets)
+if ! command -v tldr &>/dev/null; then
+    echo "Installing tldr..."
+    sudo npm install -g tldr
+else
+    echo "✓ tldr is already installed."
+fi
+
+# Install Yazi (Vim-style terminal file manager)
+if ! command -v yazi &>/dev/null; then
+    echo "Installing Yazi file manager..."
+    YAZI_VERSION=$(curl -s "https://api.github.com/repos/sxyazi/yazi/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo yazi.zip "https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.zip"
+    unzip yazi.zip
+    sudo install yazi-x86_64-unknown-linux-gnu/yazi yazi-x86_64-unknown-linux-gnu/ya /usr/local/bin
+    rm -rf yazi.zip yazi-x86_64-unknown-linux-gnu
+else
+    echo "✓ Yazi is already installed."
+fi
+
+
 # Clone Zsh plugins (Syntax Highlighting & Autosuggestions)
 if [ ! -d "$HOME/.zsh/zsh-syntax-highlighting" ]; then
     echo "Cloning zsh-syntax-highlighting..."
