@@ -1,35 +1,17 @@
 return {
-    "scottmckendry/cyberdream.nvim",
-    dev = true,
+    "folke/tokyonight.nvim",
+    name = "tokyonight",
     lazy = false,
     priority = 1000,
-    ---@type cyberdream.Config
     opts = {
-        variant = "auto",
+        style = "night", -- storm, moon, night, day
         transparent = true,
-        italic_comments = true,
-        hide_fillchars = true,
-        terminal_colors = false,
-        cache = true,
-        borderless_pickers = true,
-        colors = {
-            bg = "#03191b",
-            fg = "#b2cacd",
-            grey = "#324a4d",
-            blue = "#49ace9",
-            green = "#49e9a6",
-            cyan = "#49d6e9",
-            red = "#e66533",
-            yellow = "#e4b781",
-            magenta = "#df769b",
-            purple = "#df769b",
-            orange = "#e69533",
+        terminal_colors = true,
+        styles = {
+            comments = { italic = true },
+            keywords = { italic = true },
+            sidebars = "transparent",
+            floats = "transparent",
         },
-        overrides = function(c)
-            return {
-                CursorLine = { bg = c.bg },
-                CursorLineNr = { fg = c.magenta },
-            }
-        end,
     },
 }

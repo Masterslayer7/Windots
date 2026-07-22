@@ -5,4 +5,4 @@ require("core.lazy")
 require("core.keymaps")
 require("core.lsp")
 
-vim.cmd.colorscheme("cyberdream")
+vim.cmd.colorscheme("tokyonight")

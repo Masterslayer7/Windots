@@ -55,7 +55,7 @@ check_and_install() {
     if ! command -v "$cmd" &>/dev/null; then
         update_apt
         echo "Installing $pkg..."
-        sudo apt install -y "$pkg"
+        sudo apt install -y $pkg
     else
         echo "✓ $cmd is already installed ($pkg)."
     fi
@@ -72,7 +72,6 @@ check_and_install fzf fzf
 check_and_install rg ripgrep
 check_and_install fdfind fd-find
 check_and_install batcat bat
-check_and_install eza eza
 check_and_install gh gh
 check_and_install make make
 check_and_install cmake cmake
@@ -80,6 +79,19 @@ check_and_install gcc build-essential
 check_and_install node "nodejs npm"
 check_and_install sqlite3 "sqlite3 libsqlite3-dev"
 check_and_install unzip unzip
+
+# Install eza (not in Ubuntu's default apt repos; needs its own repo)
+if ! command -v eza &>/dev/null; then
+    echo "Installing eza..."
+    sudo mkdir -p /etc/apt/keyrings
+    wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+    sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+    sudo apt update
+    sudo apt install -y eza
+else
+    echo "✓ eza is already installed."
+fi
 
 # Install Fastfetch
 if ! command -v fastfetch &>/dev/null; then
@@ -91,12 +103,25 @@ else
     echo "✓ fastfetch is already installed."
 fi
 
-# Install Neovim
-if ! command -v nvim &>/dev/null; then
-    echo "Installing Neovim..."
-    sudo snap install nvim --classic || sudo apt install -y neovim
+# Install Neovim (nightly, from the official GitHub release tarball)
+# The config targets Neovim nightly (0.12+). Snap/apt ship older builds, so we
+# install the nightly tarball into /opt and symlink it onto PATH. This also
+# replaces any stale manual install shadowing PATH at /usr/local/bin/nvim.
+NVIM_PREFIX="/opt/nvim-linux-x86_64"
+if command -v nvim &>/dev/null && [ -L /usr/local/bin/nvim ] \
+    && [ "$(readlink -f /usr/local/bin/nvim)" = "$NVIM_PREFIX/bin/nvim" ]; then
+    echo "✓ Neovim (nightly) is already installed."
 else
-    echo "✓ Neovim is already installed."
+    echo "Installing Neovim (nightly)..."
+    curl -fL --retry 3 -o nvim-linux-x86_64.tar.gz \
+        https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
+    tar xzf nvim-linux-x86_64.tar.gz
+    sudo rm -rf "$NVIM_PREFIX"
+    sudo cp -r nvim-linux-x86_64 "$NVIM_PREFIX"
+    sudo rm -f /usr/local/bin/nvim
+    sudo ln -sf "$NVIM_PREFIX/bin/nvim" /usr/local/bin/nvim
+    rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz
+    hash -r
 fi
 
 # Install Starship
@@ -118,7 +143,21 @@ fi
 # Install Zig
 if ! command -v zig &>/dev/null; then
     echo "Installing Zig..."
-    sudo snap install zig --classic || sudo apt install -y zig
+    ZIG_URL=$(curl -s https://ziglang.org/download/index.json | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+versions = [k for k in d if k != 'master']
+latest = sorted(versions, key=lambda v: [int(x) for x in v.split('.')])[-1]
+print(d[latest]['x86_64-linux']['tarball'])
+")
+    ZIG_TMP=$(mktemp -d)
+    curl -sSL "$ZIG_URL" -o "$ZIG_TMP/zig.tar.xz"
+    tar -xJf "$ZIG_TMP/zig.tar.xz" -C "$ZIG_TMP"
+    ZIG_DIR=$(find "$ZIG_TMP" -maxdepth 1 -type d -name 'zig-*')
+    sudo rm -rf /opt/zig
+    sudo mv "$ZIG_DIR" /opt/zig
+    sudo ln -sf /opt/zig/zig /usr/local/bin/zig
+    rm -rf "$ZIG_TMP"
 else
     echo "✓ zig is already installed."
 fi

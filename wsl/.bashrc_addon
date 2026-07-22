@@ -46,3 +46,22 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   fdfind --type d --hidden --follow --exclude ".git" "$1"
 }
+
+# Report cwd to the terminal via OSC 7 so WezTerm new tabs/splits
+# (e.g. Ctrl+Space then c) inherit the current working directory.
+_wezterm_osc7() {
+  local url_path="" i ch hexch LC_ALL=C
+  for ((i = 0; i < ${#PWD}; ++i)); do
+    ch="${PWD:$i:1}"
+    case "$ch" in
+      [/._~A-Za-z0-9-]) url_path+="$ch" ;;
+      *) printf -v hexch '%%%02X' "'$ch"; url_path+="$hexch" ;;
+    esac
+  done
+  printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${url_path}"
+}
+case "$PROMPT_COMMAND" in
+  *_wezterm_osc7*) ;;
+  "") PROMPT_COMMAND="_wezterm_osc7" ;;
+  *) PROMPT_COMMAND="_wezterm_osc7;$PROMPT_COMMAND" ;;
+esac

@@ -3,22 +3,22 @@ local wezterm = require("wezterm")
 local M = {}
 
 ------------------------------------------------------------
--- Noctis Default Palette
+-- Tokyo Night Palette
 ------------------------------------------------------------
 local colors = {
-    bg          = "#03191b", -- Noctis dark teal
-    surface     = "#052225", -- Dark forest teal
-    overlay     = "#083d44", -- Medium forest teal
-    muted       = "#0c5861", -- Slate teal
-    subtle      = "#b2cacd", -- Noctis foreground (text color)
-    text        = "#ffffff", -- Pure white text
-    cyan        = "#49d6e9", -- Active tab cyan
-    purple      = "#df769b", -- Hover state magenta
-    green       = "#49e9a6", -- Green
-    pink        = "#e66533", -- Orange-Red
-    yellow      = "#e4b781", -- Yellow
-    orange      = "#e69533", -- Orange
-    blue        = "#49ace9", -- Blue
+    bg          = "#1a1b26", -- Tokyo Night bg
+    surface     = "#16161e", -- Tokyo Night bg_dark
+    overlay     = "#3b4261", -- Tokyo Night bg_highlight
+    muted       = "#414868", -- Tokyo Night terminal_black
+    subtle      = "#a9b1d6", -- Tokyo Night fg_dark
+    text        = "#c0caf5", -- Tokyo Night fg
+    cyan        = "#7dcfff", -- Tokyo Night cyan (Active tab)
+    purple      = "#bb9af7", -- Tokyo Night magenta (Hover state)
+    green       = "#9ece6a", -- Tokyo Night green
+    pink        = "#f7768e", -- Tokyo Night red
+    yellow      = "#e0af68", -- Tokyo Night yellow
+    orange      = "#ff9e64", -- Tokyo Night orange
+    blue        = "#7aa2f7", -- Tokyo Night blue
 }
 
 ------------------------------------------------------------

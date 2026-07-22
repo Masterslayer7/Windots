@@ -73,10 +73,9 @@ config.font_size = 10
 ------------------------------------------------------------
 -- Color Configuration
 ------------------------------------------------------------
-local opacity = 0.60
-local transparent_bg = "rgba(3, 25, 27, " .. opacity .. ")"
-config.colors = require("cyberdream")
-config.colors.split = "#083d44" -- Dark teal border for thin split dividers
+local opacity = 0.85
+local transparent_bg = "rgba(26, 27, 38, " .. opacity .. ")"
+config.color_scheme = "Tokyo Night"
 config.force_reverse_video_cursor = true
 
 -- Dim inactive panes slightly to make the active pane pop
@@ -129,12 +128,48 @@ config.window_frame = {
         emoji_font,
     }),
     font_size = 9.0,
+    -- Integrated title-button colors (WezTerm styles all buttons uniformly,
+    -- not per-button, so there is no red/yellow/green traffic-light option).
+    button_fg = "#a9b1d6",
+    button_bg = "rgba(0,0,0,0)",
+    button_hover_fg = "#1a1b26",
+    button_hover_bg = "#bb9af7",
 }
 
-config.colors.tab_bar = {
-    background = transparent_bg,
-    new_tab = { fg_color = "#7b8496", bg_color = "#25282e" },
-    new_tab_hover = { fg_color = "#16181a", bg_color = "#5ef1ff" },
+config.colors = {
+    background = "#1a1b26",
+    foreground = "#c0caf5",
+    cursor_bg = "#c0caf5",
+    cursor_fg = "#1a1b26",
+    cursor_border = "#c0caf5",
+
+    ansi = {
+        "#15161e", -- black
+        "#f7768e", -- red
+        "#9ece6a", -- green
+        "#e0af68", -- yellow
+        "#7aa2f7", -- blue
+        "#bb9af7", -- magenta
+        "#7dcfff", -- cyan
+        "#a9b1d6", -- white
+    },
+    brights = {
+        "#414868", -- bright black
+        "#f7768e", -- red
+        "#9ece6a", -- green
+        "#e0af68", -- yellow
+        "#7aa2f7", -- blue
+        "#bb9af7", -- magenta
+        "#7dcfff", -- cyan
+        "#c0caf5", -- bright white
+    },
+
+    split = "#3b4261", -- Tokyo Night fg_gutter / bg_highlight
+    tab_bar = {
+        background = transparent_bg,
+        new_tab = { fg_color = "#a9b1d6", bg_color = "#3b4261" },
+        new_tab_hover = { fg_color = "#1a1b26", bg_color = "#bb9af7" },
+    },
 }
 
 ------------------------------------------------------------
@@ -234,7 +269,18 @@ config.launch_menu = {
 -- OS-Specific Overrides
 ------------------------------------------------------------
 if host_os == "windows" then
-    config.default_prog = { "C:\\Windows\\System32\\wsl.exe", "--cd", "~" }
+    -- Register WSL as a proper domain so WezTerm understands the Linux
+    -- filesystem and can inherit the current pane's cwd for new tabs/splits
+    -- (e.g. Ctrl+Space then c). Launching wsl.exe with "--cd ~" as a raw
+    -- default_prog always forces new tabs into $HOME, which is the bug.
+    config.wsl_domains = {
+        {
+            name = "WSL:Ubuntu",
+            distribution = "Ubuntu",
+            default_cwd = "~",
+        },
+    }
+    config.default_domain = "WSL:Ubuntu"
 elseif host_os == "linux" then
     config.default_prog = { "zsh" }
     config.front_end = "WebGpu"
